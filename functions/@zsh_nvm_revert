@@ -1,0 +1,14 @@
+local previous_version="$(@zsh_nvm_previous_version)"
+if [[ -n "$previous_version" ]]; then
+  local installed_version=$(builtin cd "$NVM_DIR" && git describe --tags)
+  if [[ "$installed_version" = "$previous_version" ]]; then
+    echo "Already reverted to $installed_version"
+    return
+  fi
+  echo "Installed version is $installed_version"
+  echo "Reverting to $previous_version..."
+  $(builtin cd "$NVM_DIR" && git checkout "$previous_version")
+  @zsh_nvm_load
+else
+  echo "No previous version found"
+fi

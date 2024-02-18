@@ -1,0 +1,3 @@
+echo "Installing nvm..."
+git clone https://github.com/nvm-sh/nvm.git "$NVM_DIR"
+$(builtin cd "$NVM_DIR" && git checkout --quiet "$(@zsh_nvm_latest_release_tag)")

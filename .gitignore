@@ -1,4 +1,6 @@
-**/.urchin.log
-**/.urchin_stdout
-.nvm
-previous_version
+.directory
+*.zwc
+*.old
+custom/*
+*~
+

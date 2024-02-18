@@ -1,0 +1,19 @@
+# Use default upgrade if it's built in
+if [[ -n "$(@zsh_nvm_nvm help | grep 'nvm upgrade')" ]]; then
+  @zsh_nvm_nvm upgrade
+  return
+fi
+
+# Otherwise use our own
+local installed_version=$(builtin cd "$NVM_DIR" && git describe --tags)
+echo "Installed version is $installed_version"
+echo "Checking latest version of nvm..."
+local latest_version=$(@zsh_nvm_latest_release_tag)
+if [[ "$installed_version" = "$latest_version" ]]; then
+  echo "You're already up to date"
+else
+  echo "Updating to $latest_version..."
+  echo "$installed_version" > "$ZSH_NVM_DIR/previous_version"
+  $(builtin cd "$NVM_DIR" && git fetch --quiet && git checkout "$latest_version")
+  @zsh_nvm_load
+fi

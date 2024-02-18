@@ -1,0 +1,1 @@
+cat "$ZSH_NVM_DIR/previous_version" 2>/dev/null

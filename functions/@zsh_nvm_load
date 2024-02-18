@@ -1,0 +1,31 @@
+# Source nvm (check if `nvm use` should be ran after load)
+if [[ "$NVM_NO_USE" == true ]]; then
+  source "$NVM_DIR/nvm.sh" --no-use
+else
+  source "$NVM_DIR/nvm.sh"
+fi
+
+# Rename main nvm function
+@zsh_nvm_rename_function nvm @zsh_nvm_nvm
+
+# Wrap nvm in our own function
+function nvm() {
+  case $1 in
+    'upgrade')
+      @zsh_nvm_upgrade
+      ;;
+    'revert')
+      @zsh_nvm_revert
+      ;;
+    'use')
+      @zsh_nvm_nvm "$@"
+      export NVM_AUTO_USE_ACTIVE=false
+      ;;
+    'install' | 'i')
+      @zsh_nvm_install_wrapper "$@"
+      ;;
+    *)
+      @zsh_nvm_nvm "$@"
+      ;;
+  esac
+}
